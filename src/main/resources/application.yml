@@ -1,0 +1,9 @@
+
+server:
+  port: 5757
+
+spring:
+  security:
+    user:
+      name: ${SBA_SERVER_USER}
+      password: ${SBA_SERVER_PASSWORD}
