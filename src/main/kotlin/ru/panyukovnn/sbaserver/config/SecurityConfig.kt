@@ -2,16 +2,15 @@ package ru.panyukovnn.sbaserver.config
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.security.config.Customizer.withDefaults
+import org.springframework.security.config.Customizer
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
-import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository
-import java.util.*
 
 @Configuration
-@EnableWebFluxSecurity
+@EnableWebSecurity
 class SecurityConfig {
 
     @Bean
@@ -20,28 +19,25 @@ class SecurityConfig {
         successHandler.setTargetUrlParameter("redirectTo")
         successHandler.setDefaultTargetUrl("/")
 
-        return http
+        http
             .authorizeHttpRequests { auth ->
                 auth.requestMatchers("/assets/**").permitAll()
                     .requestMatchers("/login").permitAll()
                     .anyRequest().authenticated()
             }
-            .formLogin { conf ->
-                conf.loginPage("/login")
+            .formLogin { fl ->
+                fl.loginPage("/login")
                     .successHandler(successHandler)
             }
-            .logout { conf ->
-                conf.logoutUrl("/logout")
+            .logout { lo ->
+                lo.logoutUrl("/logout")
             }
-            .httpBasic(withDefaults())
-            .csrf { conf ->
-                conf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+            .httpBasic(Customizer.withDefaults())
+            .csrf { csrf ->
+                csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                     .ignoringRequestMatchers("/instances", "/actuator/**")
             }
-            .rememberMe { conf ->
-                conf.key(UUID.randomUUID().toString())
-                    .tokenValiditySeconds(1209600)
-            }
-            .build()
+
+        return http.build()
     }
 }
