@@ -5,7 +5,8 @@ services:
     build: .
     container_name: sba-server
     ports:
-      - "5757:5757"
+      - "172.17.0.1:5757:5757" # host.docker.internal
+      - "127.0.0.1:5757:5757"
     env_file:
       - deploy/config.env
     extra_hosts:

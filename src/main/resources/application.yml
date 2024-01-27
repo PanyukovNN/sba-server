@@ -1,15 +1,12 @@
 
 server:
   port: 5757
-#  servlet:
-#    context-path: /sba-server
 
 spring:
   boot:
     admin:
       ui:
-        public-url: https://185.250.46.112/sba-server
-#      context-path: "/sba-server"
+        public-url: ${SBA_PUBLIC_URL}
 
   security:
     user:
