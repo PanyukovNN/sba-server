@@ -9,7 +9,7 @@ spring:
     admin:
       context-path: "/sba-server"
       ui:
-        public-url: "https://185.250.46.112/sba-server"
+        public-url: "http://localhost:5757/sba-server"
   security:
     user:
       name: ${SBA_SERVER_USER}
