@@ -1,6 +1,8 @@
 
 server:
   port: 5757
+  servlet:
+    context-path: /sba-server
 
 spring:
   security:
